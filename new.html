@@ -1,14 +1,15 @@
-<html>
-  <body>
-    <div style="padding:30px">
-      <p>你好，余梦！</p>
-      <p>你好，林雯！</p>
-      <p>你好，林雯！</p>
-      <p>你好，林雯！</p>
-      <p>你好，林雯！</p>
-      <p>你好，林雯！</p>
-    </div>
-    <div></div>
-    <div></div>
-  </body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <h2>Upload Text and Image</h2>
+
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <label for="textFile">Select Text File:</label><br>
+    <input type="file" id="textFile" name="textFile"><br><br>
+    
+    <label for="imageFile">Select Image File:</label><br>
+    <input type="file" id="imageFile" name="imageFile" accept="image/*"><br><br>
+    
+    <input type="submit" value="Submit">
+  </form>
 </html>
+
