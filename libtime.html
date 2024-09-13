@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可视化表单</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        input, select {
+            width: 90%;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
 
+<div class="form-container">
+    <h2>可视化表单</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>字段 1</th>
+                <th>字段 2</th>
+                <th>字段 3</th>
+                <th>字段 4</th>
+            </tr>
+        </thead>
+        <tbody id="form-body">
+            <tr>
+                <td><input type="text" name="field1-row1" placeholder="输入值"></td>
+                <td><input type="text" name="field2-row1" placeholder="输入值"></td>
+                <td><input type="text" name="field3-row1" placeholder="输入值"></td>
+                <td><input type="text" name="field4-row1" placeholder="输入值"></td>
+            </tr>
+        </tbody>
+    </table>
+    <button onclick="addRow()">添加行</button>
+</div>
+
+<script>
+    function addRow() {
+        var table = document.getElementById("form-body");
+        var row = table.insertRow();
+        
+        for (var i = 1; i <= 4; i++) {
+            var cell = row.insertCell();
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = `field${i}-row${table.rows.length}`;
+            input.placeholder = "输入值";
+            cell.appendChild(input);
+        }
+    }
+</script>
+
+</body>
+</html>
