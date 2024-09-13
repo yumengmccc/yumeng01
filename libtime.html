@@ -30,6 +30,17 @@
             padding: 5px;
             border-radius: 4px;
         }
+        .action-button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .action-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -39,29 +50,54 @@
     <table>
         <thead>
             <tr>
-                <th>日期</th>
-                <th>时间</th>
-                <th>地点</th>
-                <th>备注</th>
+                <th>字段 1</th>
+                <th>字段 2</th>
+                <th>字段 3</th>
+                <th>字段 4</th>
+                <th>操作</th> <!-- 增加操作列 -->
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><div class="static-data">2024年9月13日</div></td>
-                <td><div class="static-data">16:45-18:00</div></td>
-                <td><div class="static-data">图书馆212</div></td>
-                <td><div class="static-data"></div></td>
+                <td><div class="static-data">预先设置的内容 1</div></td>
+                <td><div class="static-data">预先设置的内容 2</div></td>
+                <td><div class="static-data">预先设置的内容 3</div></td>
+                <td><div class="static-data">预先设置的内容 4</div></td>
+                <td><button class="action-button" onclick="sendEmail(this)">预约</button></td>
             </tr>
             <tr>
                 <td><div class="static-data">预先设置的内容 5</div></td>
                 <td><div class="static-data">预先设置的内容 6</div></td>
                 <td><div class="static-data">预先设置的内容 7</div></td>
                 <td><div class="static-data">预先设置的内容 8</div></td>
+                <td><button class="action-button" onclick="sendEmail(this)">预约</button></td>
             </tr>
-            <!-- 你可以根据需要继续添加更多的行 -->
+            <!-- 可以根据需要继续添加更多行 -->
         </tbody>
     </table>
 </div>
+
+<script>
+    function sendEmail(button) {
+        // 获取当前按钮所在行的所有单元格内容
+        var row = button.parentNode.parentNode;
+        var cells = row.getElementsByTagName("td");
+        
+        var formContent = [];
+        for (var i = 0; i < cells.length - 1; i++) {  // 忽略最后一个按钮单元格
+            var data = cells[i].innerText.trim();
+            formContent.push(data);
+        }
+
+        // 构建邮件内容
+        var subject = "我想预约这个";
+        var body = "我想预约这个: " + formContent.join(", ");
+        
+        // 通过 mailto 协议调用邮件客户端
+        var mailtoLink = "mailto:your-email@example.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+        window.location.href = mailtoLink;
+    }
+</script>
 
 </body>
 </html>
