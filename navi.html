@@ -387,42 +387,6 @@
             </div>
         </div>
         
-        <div class="add-link-form">
-            <h3 class="form-title">添加新链接</h3>
-            <form id="addLinkForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="linkName">链接名称</label>
-                        <input type="text" id="linkName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="linkUrl">链接地址</label>
-                        <input type="url" id="linkUrl" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="linkDescription">描述</label>
-                        <input type="text" id="linkDescription">
-                    </div>
-                    <div class="form-group">
-                        <label for="linkCategory">分类</label>
-                        <select id="linkCategory" required>
-                            <option value="official">官方系统</option>
-                            <option value="study">学习资源</option>
-                            <option value="programming">编程竞赛</option>
-                            <option value="other">其他资源</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="linkTag">标签</label>
-                    <input type="text" id="linkTag" placeholder="用逗号分隔多个标签">
-                </div>
-                <button type="submit">添加链接</button>
-            </form>
-        </div>
-        
         <footer>
             <p>© 2023 同济大学资源导航 | 最后更新: <span id="lastUpdate"></span></p>
         </footer>
@@ -453,47 +417,6 @@
                     }
                 });
             });
-        });
-        
-        // 添加新链接功能
-        const addLinkForm = document.getElementById('addLinkForm');
-        const linksContainer = document.getElementById('linksContainer');
-        
-        addLinkForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('linkName').value;
-            const url = document.getElementById('linkUrl').value;
-            const description = document.getElementById('linkDescription').value;
-            const category = document.getElementById('linkCategory').value;
-            const tags = document.getElementById('linkTag').value.split(',').map(tag => tag.trim());
-            
-            // 创建新卡片
-            const newCard = document.createElement('div');
-            newCard.className = 'link-card';
-            newCard.dataset.category = category;
-            
-            let tagsHtml = '';
-            tags.forEach(tag => {
-                if (tag) {
-                    tagsHtml += `<span class="tag">${tag}</span>`;
-                }
-            });
-            
-            newCard.innerHTML = `
-                <a href="${url}" target="_blank">${name}</a>
-                <p class="link-description">${description || '暂无描述'}</p>
-                ${tagsHtml}
-            `;
-            
-            // 添加到容器
-            linksContainer.appendChild(newCard);
-            
-            // 重置表单
-            addLinkForm.reset();
-            
-            // 显示成功提示
-            alert('链接添加成功！');
         });
     </script>
 </body>
