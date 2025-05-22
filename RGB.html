@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片像素RGB值分析</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #imagePreview {
+            max-width: 300px;
+            max-height: 300px;
+            margin: 10px 0;
+            display: none;
+        }
+        #rgbArray {
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            background-color: #f5f5f5;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>图片像素RGB值分析</h1>
+    <p>上传一张图片，获取其像素RGB值（Windows.h RGB格式）</p>
+    
+    <input type="file" id="imageUpload" accept="image/*">
+    <br>
+    <img id="imagePreview" alt="预览图">
+    
+    <h2>RGB值数组（从左上到右下）：</h2>
+    <div id="rgbArray">请上传图片...</div>
+    
+    <script>
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    document.getElementById('imagePreview').style.display = 'block';
+                    document.getElementById('imagePreview').src = event.target.result;
+                    
+                    // 创建canvas来分析像素
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    
+                    // 获取像素数据
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const data = imageData.data;
+                    
+                    // 生成RGB数组
+                    const rgbArray = [];
+                    for (let y = 0; y < canvas.height; y++) {
+                        const row = [];
+                        for (let x = 0; x < canvas.width; x++) {
+                            const i = (y * canvas.width + x) * 4;
+                            const r = data[i];
+                            const g = data[i + 1];
+                            const b = data[i + 2];
+                            
+                            // 计算Windows.h RGB值 (0x00bbggrr)
+                            const winRGB = (b << 16) | (g << 8) | r;
+                            row.push(winRGB);
+                        }
+                        rgbArray.push(row);
+                    }
+                    
+                    // 显示结果
+                    document.getElementById('rgbArray').textContent = 
+                        '[\n' + 
+                        rgbArray.map(row => '  [' + row.join(', ') + ']').join(',\n') + 
+                        '\n]';
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>
